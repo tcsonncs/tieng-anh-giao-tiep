@@ -95,3 +95,32 @@ mark{background:var(--warn-bg);color:var(--warn);border-radius:5px;padding:0 4px
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .opt.sel{border:2px solid var(--pri);background:var(--pri-soft)}
 @media (prefers-reduced-motion:reduce){button{transition:none}}
+
+body{background:radial-gradient(900px 380px at 80% -80px,var(--glow),transparent 70%),var(--bg);background-attachment:fixed}
+:root{--glow:rgba(15,107,88,.16)}
+:root[data-theme="dark"]{--glow:rgba(76,194,160,.14)}
+.brand{display:flex;align-items:center;gap:12px;margin:0 0 18px}
+.brand img{border-radius:12px;box-shadow:var(--sh)}
+.brand>div{flex:1;min-width:0}
+.brand .eyebrow{margin:0;font-size:.78rem}
+.brand .bn{font-size:1.2rem;font-weight:750;letter-spacing:-.02em;line-height:1.2}
+button.iconbtn{min-height:44px;width:44px;padding:0;border-radius:50%;font-size:1.15rem;border:1px solid var(--line);background:var(--card);box-shadow:var(--sh)}
+button.hero{background:linear-gradient(135deg,#17967a 0%,#0b5446 100%);border:0;position:relative;overflow:hidden;min-height:92px;color:#fff}
+button.hero::after{content:"";position:absolute;right:-30px;top:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.1)}
+button.hero::before{content:"";position:absolute;right:50px;bottom:-60px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.07)}
+:root[data-theme="dark"] button.hero{background:linear-gradient(135deg,#2fae8d 0%,#126b56 100%);color:#fff}
+button.hero .tic{width:48px;height:48px;background:rgba(255,255,255,.2)}
+button.hero .ht{font-size:1.25rem;font-weight:750}
+.tiles .tile:nth-child(1) .tic{background:#e0efff;color:#1b66c9}
+.tiles .tile:nth-child(2) .tic{background:#ffe6e6;color:#c83a3a}
+.tiles .tile:nth-child(3) .tic{background:#fff0d6;color:#b86a00}
+.tiles .tile:nth-child(4) .tic{background:#efe6ff;color:#7440c9}
+:root[data-theme="dark"] .tiles .tile:nth-child(1) .tic{background:#1a2c44;color:#7db4ff}
+:root[data-theme="dark"] .tiles .tile:nth-child(2) .tic{background:#3a2020;color:#ff9a9a}
+:root[data-theme="dark"] .tiles .tile:nth-child(3) .tic{background:#3a2c12;color:#f3b95f}
+:root[data-theme="dark"] .tiles .tile:nth-child(4) .tic{background:#2c2142;color:#b89cff}
+.tile{box-shadow:var(--sh);transition:transform .12s,box-shadow .12s}
+.tile:hover{transform:translateY(-2px)}
+.stat{position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--pri);opacity:.7}
+h1{font-size:1.4rem}

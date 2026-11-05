@@ -1,6 +1,8 @@
 /* icons.js - bộ biểu tượng nét đường (SVG), tô theo màu chữ hiện tại. IC('tên') trả về chuỗi SVG. */
 (function () {
   var P = {
+    sun: '<circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.3M12 19.2v2.3M2.5 12h2.3M19.2 12h2.3M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/>',
+    moon: '<path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/>',
     home: '<path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M10 19.5v-5h4v5"/>',
     cards: '<rect x="4" y="3.5" width="16" height="17" rx="2.5"/><path d="M8 8.5h8M8 12h8M8 15.5h5"/>',
     math: '<path d="M5 6h6M8 3v6"/><path d="M13.5 7.5h6"/><path d="M5.5 16.5h6"/><path d="m14 14.5 5 5M19 14.5l-5 5"/>',

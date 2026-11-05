@@ -23,7 +23,7 @@ var ID_RE = /^[A-Za-z0-9_-]{1,40}$/;
 function defaults() {
   return { cards: {}, days: {}, streak: { last: '', count: 0 }, mathSeen: {}, custom: [],
     l: { dict: 0, lia: 0, dlg: {} }, ls: null, sp: null, n: { rx: 0, rxOk: 0, sh: 0, shOk: 0, gc: 0, gcOk: 0, dl: 0, dlOk: 0, nv: 0, nvOk: 0, em: 0 },
-    set: { hideKnown: true, unrev: true, newPerDay: 5, theme: 'auto', voice: '', rec: true, asr: true } };
+    set: { hideKnown: true, unrev: true, newPerDay: 5, theme: 'light', voice: '', rec: true, asr: true } };
 }
 function isObj(x) { return !!x && typeof x === 'object' && !Array.isArray(x); }
 function num(x, d) { x = Number(x); return isFinite(x) ? x : d; }
@@ -78,7 +78,7 @@ function normalize(o) {
   var st = isObj(o.set) ? o.set : {};
   s.set = { hideKnown: st.hideKnown !== false, unrev: st.unrev !== false,
     newPerDay: [3, 5, 8].indexOf(Number(st.newPerDay)) >= 0 ? Number(st.newPerDay) : 5,
-    theme: ['auto', 'light', 'dark'].indexOf(st.theme) >= 0 ? st.theme : 'auto', voice: String(st.voice || ''), rec: st.rec !== false, asr: st.asr !== false };
+    theme: st.theme === 'dark' ? 'dark' : 'light', voice: String(st.voice || ''), rec: st.rec !== false, asr: st.asr !== false };
   return s;
 }
 function load() {
@@ -324,7 +324,7 @@ function renderHome(v) {
   var n = counts(), tk = ymd(), done = !!S.days[tk];
   function tile(act, ic, label, sub) { return '<button class="tile" data-act="' + act + '"><span class="tic">' + IC(ic) + '</span><span class="tt">' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
   var lsub = (function () { var it = S.ls && lsItems(); return it && S.ls.r.length > 0 && S.ls.r.length < lsTotal(it) ? 'có bài đang dở' : ''; })();
-  v.innerHTML = '<div class="eyebrow">Xin chào Thầy</div><h1>Tiếng Anh giao tiếp trường học</h1>' +
+  v.innerHTML = '<div class="brand"><img src="icon-192.png" alt="" width="44" height="44"><div><div class="eyebrow">Xin chào Thầy</div><div class="bn">Tiếng Anh trường học</div></div><button class="ghost iconbtn" data-act="theme" aria-label="' + (S.set.theme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối') + '">' + IC(S.set.theme === 'dark' ? 'sun' : 'moon') + '</button></div>' +
     '<button class="pri big hero" data-act="start"><span class="tic">' + IC('play') + '</span><span class="ht">' + (done ? 'Luyện thêm hôm nay' : 'Luyện hôm nay') + '<small>' + (done ? 'Đã xong buổi hôm nay' : 'Khoảng 10 phút') + '</small></span></button>' +
     (done ? '<p class="okmsg">' + IC('check') + ' Hôm nay Thầy đã luyện xong.</p>' : '') +
     '<h2 class="sec">Luyện kỹ năng</h2><div class="tiles">' +
@@ -346,7 +346,7 @@ function renderSettings(v) {
     '<label class="set">Thẻ đã quen: ẩn câu mẫu, chỉ hiện tình huống<input type="checkbox" data-set="hideKnown"' + (S.set.hideKnown ? ' checked' : '') + '></label>' +
     '<label class="set">Hiện cả nội dung chưa duyệt (bản thử)<input type="checkbox" data-set="unrev"' + (S.set.unrev ? ' checked' : '') + '></label>' +
     '<label class="set">Thẻ mới mỗi buổi<select data-set="newPerDay" style="width:90px">' + [3, 5, 8].map(function (n) { return '<option' + (S.set.newPerDay === n ? ' selected' : '') + '>' + n + '</option>'; }).join('') + '</select></label>' +
-    '<label class="set">Giao diện<select data-set="theme" style="width:140px">' + [['auto', 'Theo máy'], ['light', 'Sáng'], ['dark', 'Tối']].map(function (o) { return '<option value="' + o[0] + '"' + (S.set.theme === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>' +
+    '<label class="set">Giao diện<select data-set="theme" style="width:140px">' + [['light', 'Sáng'], ['dark', 'Tối']].map(function (o) { return '<option value="' + o[0] + '"' + (S.set.theme === o[0] ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></label>' +
     '<label class="set">Giọng đọc<select data-set="voice" style="width:200px"><option value="">Tự chọn giọng Mỹ</option>' + vs + '</select></label>' +
     '<h2>Luyện nói</h2>' +
     '<label class="set">Ghi âm giọng Thầy (lưu trong máy ' + (window.NOI ? NOI.days : 7) + ' ngày)<input type="checkbox" data-set="rec"' + (S.set.rec ? ' checked' : '') + '></label>' +
@@ -357,7 +357,7 @@ function renderSettings(v) {
     '<p class="th" style="margin-top:8px">File sao lưu chỉ có tiến độ và câu Thầy thêm, không có dữ liệu ai khác.</p>' +
     '<h2>Xoá tiến độ</h2><button data-act="reset" style="color:var(--bad)">Xoá toàn bộ tiến độ trong máy</button>';
 }
-function applyTheme() { var t = S.set.theme; if (t === 'auto') document.documentElement.removeAttribute('data-theme'); else document.documentElement.setAttribute('data-theme', t); }
+function applyTheme() { document.documentElement.setAttribute('data-theme', S.set.theme === 'dark' ? 'dark' : 'light'); }
 
 // ---------- luyện nghe (giai đoạn 2) ----------
 // Tiến độ bài đang làm lưu ở S.ls = { mode, q: [id...], r: [kết quả từng mục đã làm] }; mục kế tiếp = r.length, nên tải lại vẫn tiếp được.
@@ -1145,6 +1145,7 @@ function act(a, b) {
     case 'topen': stopVoice(); MATH.open = b.dataset.id; render(); break;
     case 'tback': stopVoice(); MATH.open = null; render(); break;
     case 'lopen': stopVoice(); LIB.open = b.dataset.id; render(); break;
+    case 'theme': S.set.theme = S.set.theme === 'dark' ? 'light' : 'dark'; save(); applyTheme(); render(); break;
     case 'lback': stopVoice(); LIB.open = null; render(); break;
     case 'addc': {
       var en = $('#ae').value.trim(), vi = $('#av').value.trim();
