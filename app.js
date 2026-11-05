@@ -124,8 +124,8 @@ function say(text, mode) {
 }
 function speakBtns(key) {
   if (!canSpeak) return '<div class="warn">Máy này không hỗ trợ đọc tiếng Anh trong trình duyệt. Thầy thử bằng Safari trên iPhone.</div>';
-  function b(r, ic, name) { return '<button data-act="say" data-k="' + key + '" data-r="' + r + '" aria-label="Nghe ' + name + '"><span aria-hidden="true">' + ic + '</span> ' + name.charAt(0).toUpperCase() + name.slice(1) + '</button>'; }
-  return '<div class="speak">' + b('slow', '🐢', 'chậm') + b('normal', '🔊', 'thường') + b('fast', '⚡', 'nhanh') + '</div>';
+  function b(r, ic, name) { return '<button data-act="say" data-k="' + key + '" data-r="' + r + '" aria-label="Nghe ' + name + '">' + IC(ic) + ' ' + name.charAt(0).toUpperCase() + name.slice(1) + '</button>'; }
+  return '<div class="speak">' + b('slow', 'turtle', 'chậm') + b('normal', 'volume', 'thường') + b('fast', 'bolt', 'nhanh') + '</div>';
 }
 
 // ---------- dữ liệu ----------
@@ -222,7 +222,7 @@ function renderSession(v) {
   } else if (s.k === 'listen') {
     var cc = s.card; CUR.card = cc.en;
     h += top + '<div class="card"><p>Nghe ở tốc độ nhanh. Đoán nghĩa trước, rồi bấm hiện chữ.</p>' +
-      '<div class="row"><button class="pri" data-act="say" data-k="card" data-r="fast"><span aria-hidden="true">⚡</span> Nghe nhanh</button><button data-act="say" data-k="card" data-r="normal"><span aria-hidden="true">🔊</span> Nghe thường</button></div>';
+      '<div class="row"><button class="pri" data-act="say" data-k="card" data-r="fast">' + IC('bolt') + ' Nghe nhanh</button><button data-act="say" data-k="card" data-r="normal">' + IC('volume') + ' Nghe thường</button></div>';
     if (s.shown) {
       h += '<div class="en" lang="en">' + stress(cc.en) + '</div><div class="vi">' + esc(cc.vi) + '</div>' +
         (cc.noiam ? '<div class="note">Nối âm: ' + esc(cc.noiam) + '</div>' : '') +
@@ -250,7 +250,7 @@ function finishSession(v) {
     if (S.streak.last !== tk) { S.streak.count = S.streak.last === yesterdayKey() ? S.streak.count + 1 : 1; S.streak.last = tk; }
     S.days[tk] = true; save();
   }
-  v.innerHTML = '<h1>Xong buổi luyện hôm nay 🎉</h1><div class="card"><p>Chuỗi ngày: <b>' + S.streak.count + '</b></p>' +
+  v.innerHTML = '<h1>Xong buổi luyện hôm nay</h1><div class="card"><p>Chuỗi ngày: <b>' + S.streak.count + '</b></p>' +
     '<p>Thẻ đã ôn: <b>' + SES.stat.rev + '</b> · Thẻ mới: <b>' + SES.stat.nw + '</b></p>' +
     (SES.stat.listen ? '<p>Bài nghe nhanh: ' + SES.stat.listen + '</p>' : '') +
     (SES.stat.term ? '<p>Từ Toán: ' + esc(SES.stat.term) + '</p>' : '') + '</div>' +
@@ -270,7 +270,7 @@ function termHTML(t) {
     '<div class="vi">' + esc(t.vi) + '</div>';
   if (t.ipa) h += '<div class="ipa">Phiên âm (chờ xác nhận): ' + esc(t.ipa) + '</div>';
   if (t.doc) h += '<div class="note">Cách đọc: ' + esc(t.doc) + '</div>';
-  if (parts.length) h += '<button data-act="sayparts" data-r="normal"><span aria-hidden="true">🔊</span> Nghe cách đọc công thức</button>';
+  if (parts.length) h += '<button data-act="sayparts" data-r="normal">' + IC('volume') + ' Nghe cách đọc công thức</button>';
   if (t.vd) h += '<div class="en" lang="en" style="font-size:1.1rem;margin-top:12px">' + esc(t.vd) + '</div>' + speakBtns('vd');
   return h + '</div>';
 }
@@ -322,13 +322,16 @@ function renderLib(v) {
 // ---------- màn hình chính ----------
 function renderHome(v) {
   var n = counts(), tk = ymd(), done = !!S.days[tk];
-  v.innerHTML = '<h1>Tiếng Anh giao tiếp trường học</h1>' +
-    '<button class="pri big" data-act="start">' + (done ? 'Luyện thêm hôm nay' : 'Luyện hôm nay (~10 phút)') + '</button>' +
-    (done ? '<p style="margin-top:8px">✓ Hôm nay Thầy đã luyện xong.</p>' : '') +
-    '<button class="big" style="margin-top:10px" data-act="lmenu"><span aria-hidden="true">🎧</span> Luyện nghe' + (function () { var it = S.ls && lsItems(); return it && S.ls.r.length > 0 && S.ls.r.length < lsTotal(it) ? ' (có bài đang dở)' : ''; })() + '</button>' +
-    '<button class="big" style="margin-top:10px" data-act="smenu"><span aria-hidden="true">🎤</span> Luyện nói</button>' +
-    (window.NV ? '<button class="big" style="margin-top:10px" data-act="nvmenu"><span aria-hidden="true">🎭</span> Nhập vai' + (S.sp && S.sp.m === 'nv' && resumeItems() ? ' (có tình huống đang dở)' : '') + '</button>' : '') +
-    (window.EM ? '<button class="big" style="margin-top:10px" data-act="emmenu"><span aria-hidden="true">✉️</span> Email mẫu</button>' : '') +
+  function tile(act, ic, label, sub) { return '<button class="tile" data-act="' + act + '"><span class="tic">' + IC(ic) + '</span><span class="tt">' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
+  var lsub = (function () { var it = S.ls && lsItems(); return it && S.ls.r.length > 0 && S.ls.r.length < lsTotal(it) ? 'có bài đang dở' : ''; })();
+  v.innerHTML = '<div class="eyebrow">Xin chào Thầy</div><h1>Tiếng Anh giao tiếp trường học</h1>' +
+    '<button class="pri big hero" data-act="start"><span class="tic">' + IC('play') + '</span><span class="ht">' + (done ? 'Luyện thêm hôm nay' : 'Luyện hôm nay') + '<small>' + (done ? 'Đã xong buổi hôm nay' : 'Khoảng 10 phút') + '</small></span></button>' +
+    (done ? '<p class="okmsg">' + IC('check') + ' Hôm nay Thầy đã luyện xong.</p>' : '') +
+    '<h2 class="sec">Luyện kỹ năng</h2><div class="tiles">' +
+    tile('lmenu', 'headphones', 'Luyện nghe', lsub) +
+    tile('smenu', 'mic', 'Luyện nói', '') +
+    (window.NV ? tile('nvmenu', 'roles', 'Nhập vai', S.sp && S.sp.m === 'nv' && resumeItems() ? 'có tình huống đang dở' : '') : '') +
+    (window.EM ? tile('emmenu', 'mail', 'Email mẫu', '') : '') + '</div>' +
     '<div class="stats"><div class="stat"><b>' + shownStreak() + '</b><span>chuỗi ngày</span></div><div class="stat"><b>' + n.known + '</b><span>câu đã thuộc</span></div><div class="stat"><b>' + n.due + '</b><span>thẻ đến hạn</span></div></div>' +
     '<p>Thẻ chưa học: ' + n.fresh + ' / ' + n.total + '. Mỗi buổi: ôn thẻ đến hạn → ' + S.set.newPerDay + ' thẻ mới → 1 bài nghe nhanh → 1 từ Toán mới.</p>' +
     (S.set.unrev ? '<div class="warn">Bản thử: đang hiện cả nội dung <b>chưa được Thầy duyệt</b> (có nhãn “Chưa duyệt”). Tắt trong Cài đặt khi đã duyệt xong.</div>' : '') +
@@ -468,9 +471,9 @@ function renderListen(v) {
     h += '<div class="card"><div class="tag">Bài đang dở</div><p><b>' + esc(lsName(S.ls)) + '</b>' + (S.ls.mode === 'dlg' ? ': ' + esc(cur[0].ten) : '') + ' · đã làm ' + dn + '/' + tot + '</p>' +
       '<div class="row"><button class="pri" data-act="lresume">' + (dn >= tot ? 'Xem kết quả' : 'Làm tiếp') + '</button><button data-act="ldrop">Bỏ bài này</button></div></div>';
   }
-  h += '<div class="card"><h2 style="margin-top:0"><span aria-hidden="true">✍️</span> Nghe chép</h2>' +
+  h += '<div class="card"><h2 style="margin-top:0">' + IC('edit') + ' Nghe chép</h2>' +
     '<p>Nghe 5 câu, gõ lại, app tô chỗ nghe sai hoặc thiếu. Chọn câu từ các thẻ Thầy đã học trước.</p><button class="pri" data-act="ldict">Bắt đầu nghe chép</button></div>' +
-    '<div class="card"><h2 style="margin-top:0"><span aria-hidden="true">🔗</span> Nghe nối âm</h2>' +
+    '<div class="card"><h2 style="margin-top:0">' + IC('link') + ' Nghe nối âm</h2>' +
     '<p>Nghe nhanh 5 câu có chỗ nối âm, nuốt âm (ví dụ get started nghe như “ge’ started”), rồi xem cách nối.</p><div class="row"><button class="pri" data-act="llia">Bắt đầu nghe nối âm</button><button data-act="lgenv">Dạng hay gặp: gonna, wanna…</button></div></div>';
   var hl = hoiList();
   h += '<h2>Nghe hội thoại ngắn</h2><p class="th">Nghe 2–4 lượt, rồi trả lời câu hỏi.</p><div class="list">' + (hl.map(function (x) {
@@ -492,7 +495,7 @@ function renderLgen(v) {
     h = '<button data-act="gback">← Danh sách</button><div class="card"><div class="tag">Nói nhanh, thân mật' + (it.duyet === 'chua' ? '<span class="badge">Chưa duyệt</span>' : '') + '</div>' +
       '<div class="en" lang="en"><b>' + esc(it.viet) + '</b> → ' + esc(it.noi) + '</div><div class="vi">' + esc(it.vi) + '</div>' +
       '<div class="th">Câu đầy đủ:</div><div class="en" lang="en" style="font-size:1.15rem">' + esc(it.full) + '</div>' +
-      '<button data-act="say" data-k="nf" data-r="normal"><span aria-hidden="true">🔊</span> Nghe câu đầy đủ</button>' +
+      '<button data-act="say" data-k="nf" data-r="normal">' + IC('volume') + ' Nghe câu đầy đủ</button>' +
       '<div class="th" style="margin-top:12px">Cách nói nhanh:</div><div class="en" lang="en" style="font-size:1.15rem">' + esc(it.nhanh) + '</div>' + speakBtns('nq') +
       '<div class="note">Chỉ để nghe hiểu. Khi viết email, thông báo hay nói trong lớp trang trọng, dùng dạng đầy đủ. Giọng máy có thể đọc “' + esc(it.noi) + '” không giống người thật.</div></div>';
   } else {
@@ -564,8 +567,8 @@ function sumLia(L, its) {
 function audioBar(d) {
   var h = '<div class="card"><div class="tag">' + esc(d.ten) + (d.duyet === 'chua' ? '<span class="badge">Chưa duyệt</span>' : '') + '</div><p class="th">' + esc(d.boicanh) + '</p>';
   if (!canSpeak) return h + '<div class="warn">Máy này không đọc được tiếng Anh. Hãy mở bằng Safari trên iPhone; tạm thời Thầy đọc lời thoại bên dưới.</div>' + transcript(d) + '</div>';
-  function b(r, ic, nm) { return '<button data-act="sayd" data-r="' + r + '" aria-label="Nghe cả đoạn, ' + nm + '"><span aria-hidden="true">' + ic + '</span> ' + nm.charAt(0).toUpperCase() + nm.slice(1) + '</button>'; }
-  h += '<div class="speak">' + b('slow', '🐢', 'chậm') + b('normal', '🔊', 'thường') + b('fast', '⚡', 'nhanh') + '</div>';
+  function b(r, ic, nm) { return '<button data-act="sayd" data-r="' + r + '" aria-label="Nghe cả đoạn, ' + nm + '">' + IC(ic) + ' ' + nm.charAt(0).toUpperCase() + nm.slice(1) + '</button>'; }
+  h += '<div class="speak">' + b('slow', 'turtle', 'chậm') + b('normal', 'volume', 'thường') + b('fast', 'bolt', 'nhanh') + '</div>';
   h += '<button class="ghost" data-act="lshowtext" aria-expanded="' + (LXS.show ? 'true' : 'false') + '">' + (LXS.show ? 'Ẩn lời thoại' : 'Xem lời thoại (nên nghe trước)') + '</button>';
   if (LXS.show) h += transcript(d);
   return h + '</div>';
@@ -573,7 +576,7 @@ function audioBar(d) {
 function transcript(d) {
   return '<div style="margin-top:8px">' + d.lines.map(function (ln, i) {
     return '<p><b>' + esc(d.nguoi[ln.w] || ln.w) + ':</b> <span lang="en">' + esc(ln.en) + '</span> ' +
-      (canSpeak ? '<button class="ghost" style="min-height:40px;padding:2px 10px" data-act="sayd" data-l="' + i + '" data-r="normal" aria-label="Nghe lượt ' + (i + 1) + '"><span aria-hidden="true">🔊</span></button>' : '') +
+      (canSpeak ? '<button class="ghost" style="min-height:40px;padding:2px 10px" data-act="sayd" data-l="' + i + '" data-r="normal" aria-label="Nghe lượt ' + (i + 1) + '">' + IC('volume') + '</button>' : '') +
       '<br><small class="th">' + esc(ln.vi) + '</small></p>';
   }).join('') + '</div>';
 }
@@ -596,7 +599,7 @@ function sumDlg(L, d) {
       var good = L.r[i] === q.a;
       return '<p><span aria-hidden="true">' + (good ? '✓' : '✗') + '</span> <span lang="en">' + esc(q.q) + '</span><br><small>' + (good ? 'Đúng' : 'Chưa đúng, đáp án: ') + (good ? '' : '<span lang="en">' + esc(q.o[q.a]) + '</span>') + '</small></p>';
     }).join('') + '</div>' +
-    (canSpeak ? '<div class="card"><div class="tag">Nghe lại cả đoạn</div><div class="speak"><button data-act="sayd" data-r="slow">🐢 Chậm</button><button data-act="sayd" data-r="normal">🔊 Thường</button><button data-act="sayd" data-r="fast">⚡ Nhanh</button></div></div>' : '') +
+    (canSpeak ? '<div class="card"><div class="tag">Nghe lại cả đoạn</div><div class="speak"><button data-act="sayd" data-r="slow">' + IC('turtle') + ' Chậm</button><button data-act="sayd" data-r="normal">' + IC('volume') + ' Thường</button><button data-act="sayd" data-r="fast">' + IC('bolt') + ' Nhanh</button></div></div>' : '') +
     '<div class="card"><div class="tag">Lời thoại và nghĩa Việt</div>' + transcript(d) + '</div>' +
     '<button class="pri big" data-act="ldlg" data-id="' + esc(d.id) + '">Làm lại bài này</button><button class="ghost" style="margin-top:10px;width:100%" data-act="lexit">Về Luyện nghe</button>';
 }
@@ -846,15 +849,15 @@ function renderSpeak(v) {
     NOI.sweep().then(function (a) {
       var el = $('#reclist'); if (!el || VIEW !== 'speak' || tok !== spToken) return;
       el.innerHTML = a.slice(0, 10).map(function (r) {
-        return '<button class="item" data-act="playrec" data-id="' + Number(r.id) + '"><span aria-hidden="true">▶️</span> <span lang="en">' + esc(String(r.en || '').slice(0, 90)) + '</span><small>' + esc(fmtTs(r.ts)) + ' · ' + esc(String(SPN[r.m] || 'nói').toLowerCase()) + '</small></button>';
+        return '<button class="item" data-act="playrec" data-id="' + Number(r.id) + '">' + IC('play') + ' <span lang="en">' + esc(String(r.en || '').slice(0, 90)) + '</span><small>' + esc(fmtTs(r.ts)) + ' · ' + esc(String(SPN[r.m] || 'nói').toLowerCase()) + '</small></button>';
       }).join('') || '<p class="th">Chưa có bản ghi nào.</p>';
     }, function () { var el = $('#reclist'); if (el) el.innerHTML = '<p class="th">Máy này không lưu được ghi âm.</p>'; });
   } else $('#reclist').innerHTML = '<p class="th">Máy này không lưu được ghi âm.</p>';
 }
 function speakBtnsSp(act) {
   act = act || 'smodel';
-  function b(r, ic, name) { return '<button data-act="' + act + '" data-r="' + r + '" aria-label="Nghe ' + name + '"><span aria-hidden="true">' + ic + '</span> ' + name.charAt(0).toUpperCase() + name.slice(1) + '</button>'; }
-  return '<div class="speak">' + b('slow', '🐢', 'chậm') + b('normal', '🔊', 'thường') + b('fast', '⚡', 'nhanh') + '</div>';
+  function b(r, ic, name) { return '<button data-act="' + act + '" data-r="' + r + '" aria-label="Nghe ' + name + '">' + IC(ic) + ' ' + name.charAt(0).toUpperCase() + name.slice(1) + '</button>'; }
+  return '<div class="speak">' + b('slow', 'turtle', 'chậm') + b('normal', 'volume', 'thường') + b('fast', 'bolt', 'nhanh') + '</div>';
 }
 function nvHelpers() {
   var N = window.NOI || {};
@@ -891,16 +894,16 @@ function renderSx(v) {
       h += '<div class="vi">' + esc(c.tinhhuong) + '</div><div class="en" lang="en">' + khungHTML(c.khung) + '</div>' +
         (c.goiy.length ? '<div class="th">' + (canSpeak ? 'Từ gợi ý (bấm để nghe):' : 'Từ gợi ý (máy này không đọc được tiếng Anh nên không nghe được):') + '</div><div class="row">' + c.goiy.map(function (g, k) { return '<button data-act="ghint" data-w="' + k + '" lang="en">' + esc(g) + '</button>'; }).join('') + '</div>' : '') +
         '<div class="th" style="text-align:center"><b id="cnt" style="font-size:2.4rem;color:var(--pri)">' + sp.cnt + '</b><div id="cnttxt">' + (sp.cnt > 0 ? 'giây để nghĩ' : 'Hết giờ nghĩ — bấm nút để nói') + '</div></div>' +
-        '<button class="pri big" data-act="sbegin"><span aria-hidden="true">🎤</span> Bắt đầu nói</button>';
+        '<button class="pri big" data-act="sbegin">' + IC('mic') + ' Bắt đầu nói</button>';
     } else {
       h += '<div class="en" style="font-size:1.2rem">Hãy nói bằng tiếng Anh:</div><div class="vi">' + esc(c.tinhhuong || c.vi) + '</div>' +
         '<div class="th" style="text-align:center"><b id="cnt" style="font-size:2.4rem;color:var(--pri)">' + sp.cnt + '</b><div id="cnttxt">' + (sp.cnt > 0 ? 'giây để nghĩ' : 'Hết giờ nghĩ — bấm nút để nói') + '</div></div>' +
-        '<button class="pri big" data-act="sbegin"><span aria-hidden="true">🎤</span> Bắt đầu nói</button>';
+        '<button class="pri big" data-act="sbegin">' + IC('mic') + ' Bắt đầu nói</button>';
     }
   } else if (sp.ph === 'listen') {
     h += '<div class="en" lang="en">' + stress(c.en) + '</div><div class="vi">' + esc(c.vi) + '</div>' + (canSpeak ? speakBtnsSp() : '') +
       '<p class="th">Nghe vài lần, rồi bấm nói theo ngay sau khi nghe, bắt chước nhịp và từ nhấn (chữ đậm).</p>' +
-      '<button class="pri big" data-act="sbegin"><span aria-hidden="true">🎤</span> Nói theo</button>';
+      '<button class="pri big" data-act="sbegin">' + IC('mic') + ' Nói theo</button>';
   } else if (sp.ph === 'd1') {
     h += '<div class="tag">Bước 1/3 · Nghe mẫu cả đoạn</div><div class="en" lang="en" style="font-size:1.1rem">' + c.sents.map(function (t) { return '<p>' + phMark(t.en) + '</p>'; }).join('') + '</div>' +
       (canSpeak ? '<div class="th">Nghe cả đoạn:</div>' + speakBtnsSp('dmodel') : '<div class="warn">Máy này không đọc được tiếng Anh nên không có giọng mẫu.</div>') +
@@ -919,7 +922,7 @@ function renderSx(v) {
   } else if (sp.ph === 'd3') {
     h += '<div class="tag">Bước 3/3 · Đọc cả đoạn</div><div class="en" lang="en" style="font-size:1.1rem">' + c.sents.map(function (x) { return '<p>' + phMark(x.en) + '</p>'; }).join('') + '</div>' +
       '<p class="th">Bấm Bắt đầu đọc, đọc to cả đoạn, rồi bấm Đọc xong. Máy tự dừng sau ' + (SP_MAXMS_DL / 1000) + ' giây.</p>' +
-      '<button class="pri big" data-act="sbegin"><span aria-hidden="true">🎤</span> Bắt đầu đọc</button>' +
+      '<button class="pri big" data-act="sbegin">' + IC('mic') + ' Bắt đầu đọc</button>' +
       '<button class="ghost" style="margin-top:10px;width:100%" data-act="dstep" data-to="2">← Về bước 2</button>';
   } else if (sp.ph === 'talk') {
     h += (sp.m === 'sh' ? '<div class="en" lang="en">' + stress(c.en) + '</div>' :
@@ -942,7 +945,7 @@ function renderSx(v) {
     } else {
       h += '<div class="tag">Câu mẫu</div><div class="en" lang="en">' + stress(c.en) + '</div><div class="vi">' + esc(c.vi) + '</div>' + (canSpeak ? speakBtnsSp() : '');
     }
-    if (sp.url) h += '<div class="row" style="margin:8px 0"><button data-act="smine"><span aria-hidden="true">▶️</span> Nghe giọng của Thầy</button></div>';
+    if (sp.url) h += '<div class="row" style="margin:8px 0"><button data-act="smine">' + IC('play') + ' Nghe giọng của Thầy</button></div>';
     if (sp.heard) {
       var d = spDiff(c, sp.heard);
       h += '<div class="th">Máy nghe được: <span lang="en">' + esc(sp.heard) + '</span></div><div class="note">' + (sp.m === 'gc' ? 'Chữ gạch đỏ có thể chỉ là cách điền khác với câu mẫu, hoặc máy nghe nhầm.' : 'Chữ gạch đỏ là chữ máy không nghe ra.') + ' Máy có thể nghe nhầm, nên đây không phải điểm: Thầy tự nghe lại và đánh giá.</div>' +

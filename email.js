@@ -97,7 +97,7 @@ EM.view = function (item, vals, H) {
   h += '</div><div class="card"><div class="tag">2. Bản email (xem trước)</div>' +
     '<div id="emprev" lang="en" style="white-space:pre-wrap;user-select:text;-webkit-user-select:text;font-size:1.02rem">' + EM.previewHTML(item, vals) + '</div>' +
     '<div class="note" id="emfillmsg" role="status">' + esc(EM.noteHTML(item, vals)) + '</div>' +
-    '<button class="pri big" data-act="emcopy"><span aria-hidden="true">📋</span> Sao chép</button>' +
+    '<button class="pri big" data-act="emcopy">' + IC('copy') + ' Sao chép</button>' +
     '<div class="note" id="emmsg" role="status" style="display:none"></div></div>';
   h += '<details class="card"><summary><b>Nghĩa tiếng Việt từng đoạn</b></summary><div style="white-space:pre-wrap;margin-top:8px">' +
     '<div class="th">Tiêu đề: ' + esc(item.tieudevi) + '</div>' +
@@ -105,8 +105,8 @@ EM.view = function (item, vals, H) {
   if (item.cum.length) {
     h += '<div class="card"><div class="tag">3 cụm hay dùng</div>' + item.cum.map(function (c, i) {
       return '<div style="margin:8px 0 12px"><div lang="en" style="font-size:1.05rem">' + esc(c.en) + '</div><div class="th">' + esc(c.vi) + '</div>' +
-        (H.canSpeak ? '<div class="row" style="margin-top:4px"><button data-act="emsay" data-k="' + i + '" data-r="slow" aria-label="Nghe chậm cụm ' + (i + 1) + '"><span aria-hidden="true">🐢</span> Chậm</button>' +
-          '<button data-act="emsay" data-k="' + i + '" data-r="normal" aria-label="Nghe cụm ' + (i + 1) + '"><span aria-hidden="true">🔊</span> Thường</button></div>' : '') + '</div>';
+        (H.canSpeak ? '<div class="row" style="margin-top:4px"><button data-act="emsay" data-k="' + i + '" data-r="slow" aria-label="Nghe chậm cụm ' + (i + 1) + '">' + IC('turtle') + ' Chậm</button>' +
+          '<button data-act="emsay" data-k="' + i + '" data-r="normal" aria-label="Nghe cụm ' + (i + 1) + '">' + IC('volume') + ' Thường</button></div>' : '') + '</div>';
     }).join('') + '</div>';
   }
   return h;

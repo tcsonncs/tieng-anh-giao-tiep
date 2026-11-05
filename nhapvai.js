@@ -143,9 +143,9 @@ NV.view = function (sp, H) {
         u.chon.map(function (x, k) {
           return '<button class="opt' + (k === sp.p ? ' sel' : '') + '" data-act="nvpick" data-p="' + k + '" aria-pressed="' + (k === sp.p ? 'true' : 'false') + '"><span lang="en">' + H.phMark(x.en) + '</span>' +
             '<small style="display:block;color:var(--mute)">' + esc(x.vi) + '</small>' + (x.gc ? '<small style="display:block;color:var(--mute)">' + esc(x.gc) + '</small>' : '') + '</button>' +
-            (H.canSpeak ? '<div class="row" style="margin:-4px 0 8px"><button data-act="nvhear" data-w="' + k + '" aria-label="Nghe cách nói ' + (k + 1) + '"><span aria-hidden="true">🔊</span> Nghe cách ' + (k + 1) + '</button></div>' : '');
+            (H.canSpeak ? '<div class="row" style="margin:-4px 0 8px"><button data-act="nvhear" data-w="' + k + '" aria-label="Nghe cách nói ' + (k + 1) + '">' + IC('volume') + ' Nghe cách ' + (k + 1) + '</button></div>' : '');
         }).join('') +
-        '<button class="pri big"' + (c ? ' data-act="sbegin"' : ' disabled') + '><span aria-hidden="true">🎤</span> ' + (c ? 'Bắt đầu nói' : 'Chọn một cách trước') + '</button>';
+        '<button class="pri big"' + (c ? ' data-act="sbegin"' : ' disabled') + '>' + IC('mic') + ' ' + (c ? 'Bắt đầu nói' : 'Chọn một cách trước') + '</button>';
     } else if (sp.ph === 'talk') {
       h += '<div class="tag" style="margin-top:12px">Thầy nói:</div><div class="en" lang="en">' + H.phMark(c ? c.en : '') + '</div>' +
         '<div class="note" id="talkmsg" role="status">' + esc(sp.msg || 'Thầy nói to nhé… (nếu máy hỏi quyền micro, chọn Cho phép)') + '</div>' +
@@ -156,7 +156,7 @@ NV.view = function (sp, H) {
     } else {   // rev
       h += '<div class="tag" style="margin-top:12px">Câu mẫu Thầy đã chọn</div><div class="en" lang="en">' + H.phMark(c ? c.en : '') + '</div>' + (c && c.vi ? '<div class="vi">' + esc(c.vi) + '</div>' : '') + (c && c.gc ? '<div class="th">' + esc(c.gc) + '</div>' : '') +
         (H.canSpeak ? H.speakBtnsSp() : '');
-      if (sp.url) h += '<div class="row" style="margin:8px 0"><button data-act="smine"><span aria-hidden="true">▶️</span> Nghe giọng của Thầy</button></div>';
+      if (sp.url) h += '<div class="row" style="margin:8px 0"><button data-act="smine">' + IC('play') + ' Nghe giọng của Thầy</button></div>';
       if (sp.heard) {
         h += '<div class="th">Máy nghe được: <span lang="en">' + esc(sp.heard) + '</span></div><div class="note">Chữ gạch đỏ là chữ máy không nghe ra, hoặc Thầy nói cách khác với câu mẫu. Máy có thể nghe nhầm, nên đây không phải điểm: Thầy tự nghe lại và đánh giá.</div>' +
           '<div class="en" lang="en" style="font-size:1.1rem">' + H.diff(c ? c.en : '', sp.heard) + '</div>';
