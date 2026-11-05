@@ -250,7 +250,7 @@ function finishSession(v) {
     if (S.streak.last !== tk) { S.streak.count = S.streak.last === yesterdayKey() ? S.streak.count + 1 : 1; S.streak.last = tk; }
     S.days[tk] = true; save();
   }
-  v.innerHTML = '<h1>Xong buổi luyện hôm nay</h1><div class="card"><p>Chuỗi ngày: <b>' + S.streak.count + '</b></p>' +
+  v.innerHTML = CONFETTI() + '<div class="winhead">' + MS('cheer', 120) + '<h1>Xong buổi luyện hôm nay!</h1><p>Giỏi lắm Thầy ơi, mình lại tiến thêm một bước.</p></div><div class="card"><p>Chuỗi ngày: <b>' + S.streak.count + '</b></p>' +
     '<p>Thẻ đã ôn: <b>' + SES.stat.rev + '</b> · Thẻ mới: <b>' + SES.stat.nw + '</b></p>' +
     (SES.stat.listen ? '<p>Bài nghe nhanh: ' + SES.stat.listen + '</p>' : '') +
     (SES.stat.term ? '<p>Từ Toán: ' + esc(SES.stat.term) + '</p>' : '') + '</div>' +
@@ -322,17 +322,21 @@ function renderLib(v) {
 // ---------- màn hình chính ----------
 function renderHome(v) {
   var n = counts(), tk = ymd(), done = !!S.days[tk];
-  function tile(act, ic, label, sub) { return '<button class="tile" data-act="' + act + '"><span class="tic">' + IC(ic) + '</span><span class="tt">' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
-  var lsub = (function () { var it = S.ls && lsItems(); return it && S.ls.r.length > 0 && S.ls.r.length < lsTotal(it) ? 'có bài đang dở' : ''; })();
-  v.innerHTML = '<div class="brand"><img src="icon-192.png" alt="" width="44" height="44"><div><div class="eyebrow">Xin chào Thầy</div><div class="bn">Tiếng Anh trường học</div></div><button class="ghost iconbtn" data-act="theme" aria-label="' + (S.set.theme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối') + '">' + IC(S.set.theme === 'dark' ? 'sun' : 'moon') + '</button></div>' +
-    '<button class="pri big hero" data-act="start"><span class="tic">' + IC('play') + '</span><span class="ht">' + (done ? 'Luyện thêm hôm nay' : 'Luyện hôm nay') + '<small>' + (done ? 'Đã xong buổi hôm nay' : 'Khoảng 10 phút') + '</small></span></button>' +
-    (done ? '<p class="okmsg">' + IC('check') + ' Hôm nay Thầy đã luyện xong.</p>' : '') +
+  function tile(cls, act, ic, label, sub) { return '<button class="tile ' + cls + '" data-act="' + act + '"><span class="tbg">' + IC(ic) + '</span><span class="tic">' + IC(ic) + '</span><span class="tt">' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
+  var lsub = (function () { var it = S.ls && lsItems(); return it && S.ls.r.length > 0 && S.ls.r.length < lsTotal(it) ? 'có bài đang dở' : 'Giọng Mỹ, nối âm'; })();
+  v.innerHTML = '<div class="brand"><img src="icon-192.png" alt="" width="40" height="40"><div class="bn">Tiếng Anh trường học</div>' +
+    '<span class="chip" title="Chuỗi ngày luyện liên tiếp">' + IC('flame') + '<b>' + shownStreak() + '</b></span>' +
+    '<button class="ghost iconbtn" data-act="theme" aria-label="' + (S.set.theme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối') + '">' + IC(S.set.theme === 'dark' ? 'sun' : 'moon') + '</button></div>' +
+    '<section class="mbanner"><div class="mrow">' + MS(done ? 'cheer' : 'happy', 104) +
+    BUBBLE(done ? 'Giỏi lắm! Hôm nay Thầy đã luyện xong. Luyện thêm cho chắc nhé?' : 'Chào Thầy! Mình luyện khoảng 10 phút nhé?') + '</div>' +
+    '<button class="start3d" data-act="start">' + IC('play') + ' ' + (done ? 'Luyện thêm' : 'Bắt đầu luyện') + '</button></section>' +
+    '<div class="daily card">' + RING(done ? 1 : 0, done ? '1/1' : '0/1') + '<div><b>Mục tiêu hôm nay</b><span>Ôn thẻ → ' + S.set.newPerDay + ' thẻ mới → bài nghe nhanh → 1 từ Toán</span></div></div>' +
     '<h2 class="sec">Luyện kỹ năng</h2><div class="tiles">' +
-    tile('lmenu', 'headphones', 'Luyện nghe', lsub) +
-    tile('smenu', 'mic', 'Luyện nói', '') +
-    (window.NV ? tile('nvmenu', 'roles', 'Nhập vai', S.sp && S.sp.m === 'nv' && resumeItems() ? 'có tình huống đang dở' : '') : '') +
-    (window.EM ? tile('emmenu', 'mail', 'Email mẫu', '') : '') + '</div>' +
-    '<div class="stats"><div class="stat"><b>' + shownStreak() + '</b><span>chuỗi ngày</span></div><div class="stat"><b>' + n.known + '</b><span>câu đã thuộc</span></div><div class="stat"><b>' + n.due + '</b><span>thẻ đến hạn</span></div></div>' +
+    tile('t1', 'lmenu', 'headphones', 'Luyện nghe', lsub) +
+    tile('t2', 'smenu', 'mic', 'Luyện nói', 'Phản xạ, nói đuổi') +
+    (window.NV ? tile('t3', 'nvmenu', 'roles', 'Nhập vai', S.sp && S.sp.m === 'nv' && resumeItems() ? 'có tình huống đang dở' : '12 tình huống') : '') +
+    (window.EM ? tile('t4', 'emmenu', 'mail', 'Email mẫu', '12 mẫu, bấm sao chép') : '') + '</div>' +
+    '<div class="stats"><div class="stat"><i>' + IC('flame') + '</i><b>' + shownStreak() + '</b><span>chuỗi ngày</span></div><div class="stat"><i>' + IC('check') + '</i><b>' + n.known + '</b><span>câu đã thuộc</span></div><div class="stat"><i>' + IC('cards') + '</i><b>' + n.due + '</b><span>thẻ đến hạn</span></div></div>' +
     '<p>Thẻ chưa học: ' + n.fresh + ' / ' + n.total + '. Mỗi buổi: ôn thẻ đến hạn → ' + S.set.newPerDay + ' thẻ mới → 1 bài nghe nhanh → 1 từ Toán mới.</p>' +
     (S.set.unrev ? '<div class="warn">Bản thử: đang hiện cả nội dung <b>chưa được Thầy duyệt</b> (có nhãn “Chưa duyệt”). Tắt trong Cài đặt khi đã duyệt xong.</div>' : '') +
     (saveFail ? '<div class="warn">Không lưu được tiến độ vào máy (có thể đang ở chế độ riêng tư hoặc bộ nhớ đầy). Tắt app là mất; hãy dùng Cài đặt → Xuất sao lưu.</div>' : '') +
@@ -1010,6 +1014,14 @@ function render() {
   else if (VIEW === 'em') renderEm(v);
   else if (VIEW === 'emx') renderEmx(v);
   else renderSettings(v);
+  if (VIEW !== 'home') {
+    var h1 = v.firstElementChild;
+    if (h1 && h1.tagName === 'H1') {
+      var mood = { speak: 'wink', sx: 'wink', nvm: 'wink', em: 'happy', emx: 'happy', lib: 'think', math: 'think', settings: 'think' }[VIEW] || 'happy';
+      var ph = document.createElement('div'); ph.className = 'pagehead';
+      v.insertBefore(ph, h1); ph.appendChild(h1); ph.insertAdjacentHTML('beforeend', MS(mood, 56));
+    }
+  }
   Array.prototype.forEach.call(document.querySelectorAll('nav button'), function (b) {
     var on = b.dataset.go === (['session', 'listen', 'lx', 'lgen', 'speak', 'sx', 'nvm', 'em', 'emx'].indexOf(VIEW) >= 0 ? 'home' : VIEW);
     b.classList.toggle('on', on);

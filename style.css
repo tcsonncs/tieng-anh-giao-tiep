@@ -124,3 +124,55 @@ button.hero .ht{font-size:1.25rem;font-weight:750}
 .stat{position:relative;overflow:hidden}
 .stat::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--pri);opacity:.7}
 h1{font-size:1.4rem}
+
+/* ===== Giao diện kiểu app học ngoại ngữ (v12) ===== */
+button{border-bottom-width:3px}
+button.pri{border-bottom:4px solid var(--pri2);box-shadow:none}
+button.pri:active{border-bottom-width:1px;transform:translateY(3px)}
+.brand .bn{font-size:1.1rem}
+.chip{display:inline-flex;align-items:center;gap:4px;background:#fff1e0;color:#d9730d;border-radius:999px;padding:6px 12px;font-weight:800}
+.chip svg{fill:#ffb347;stroke:#d9730d}
+:root[data-theme="dark"] .chip{background:#3a2a14;color:#ffb347}
+.mbanner{background:linear-gradient(160deg,#2dbd96 0%,#0f6b58 100%);border-radius:26px;padding:18px 16px 16px;margin:0 0 14px;position:relative;overflow:hidden;box-shadow:0 8px 24px rgba(15,107,88,.3);color:#fff}
+.mbanner::before{content:"";position:absolute;right:-40px;top:-50px;width:190px;height:190px;border-radius:50%;background:rgba(255,255,255,.1)}
+.mbanner::after{content:"";position:absolute;left:-30px;bottom:-70px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.08)}
+.mrow{display:flex;align-items:center;gap:10px;position:relative;z-index:1}
+.mascot{flex:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,.18));animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.bubble{position:relative;background:#fff;color:#15302a;border-radius:18px;padding:12px 14px;font-weight:650;line-height:1.35;font-size:.98rem;flex:1;box-shadow:0 3px 0 rgba(0,0,0,.08)}
+.bubble::before{content:"";position:absolute;left:-8px;top:50%;margin-top:-8px;border:8px solid transparent;border-right-color:#fff;border-left:0}
+button.start3d{position:relative;z-index:1;width:100%;margin-top:14px;min-height:56px;border-radius:16px;background:#fff;color:#0b5446;border:0;border-bottom:5px solid #bfe3d8;font-size:1.1rem;font-weight:800;letter-spacing:.01em;text-transform:uppercase;box-shadow:none}
+button.start3d:active{border-bottom-width:1px;transform:translateY(4px)}
+.daily{display:flex;align-items:center;gap:14px;padding:14px 16px}
+.daily b{display:block;font-size:1rem}
+.daily span{font-size:.84rem;color:var(--mute);line-height:1.35;display:block}
+.ring{flex:none}
+.tile{color:#fff;border:0;border-bottom:5px solid rgba(0,0,0,.2);position:relative;overflow:hidden;min-height:128px;box-shadow:none}
+.tile:active{border-bottom-width:1px;transform:translateY(4px)}
+.tile .tt{color:#fff;font-size:1.08rem;font-weight:800;position:relative}
+.tile small{color:rgba(255,255,255,.88);position:relative}
+.tile .tic{position:relative}
+.tile .tbg{position:absolute;right:-14px;bottom:-14px;font-size:92px;opacity:.16;line-height:0}
+.tile .tbg svg{width:1em;height:1em;stroke-width:1.4}
+.tiles .tile.t1{background:linear-gradient(145deg,#4a9bff,#1b5fd1)}
+.tiles .tile.t2{background:linear-gradient(145deg,#ff7a7a,#d83a3a)}
+.tiles .tile.t3{background:linear-gradient(145deg,#ffb23f,#e07b00)}
+.tiles .tile.t4{background:linear-gradient(145deg,#a07bff,#6a3fd0)}
+.tiles .tile .tic,:root[data-theme="dark"] .tiles .tile .tic{background:rgba(255,255,255,.22);color:#fff}
+.stat{padding-top:12px}
+.stat i{display:block;color:var(--pri);font-style:normal;margin-bottom:2px}
+.stat::before{display:none}
+.pagehead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 14px;padding:10px 6px 10px 16px;background:linear-gradient(120deg,var(--pri-soft),transparent);border-radius:20px}
+.pagehead h1{margin:0}
+.pagehead .mascot{animation:none}
+.winhead{text-align:center;padding:6px 0 10px;position:relative;z-index:1}
+.winhead h1{margin:6px 0 4px;font-size:1.5rem}
+.winhead p{color:var(--mute)}
+.winhead .mascot{animation:bob 1.6s ease-in-out infinite}
+.confetti{position:fixed;left:0;right:0;top:0;height:0;pointer-events:none;z-index:4}
+.confetti i{position:absolute;top:-10px;width:9px;height:14px;border-radius:2px;animation:fall 2.6s ease-in forwards}
+@keyframes fall{to{top:105vh;opacity:.9}}
+.steps i{height:10px;border-radius:6px}
+.card{border-bottom-width:3px}
+.speak button,.opt,.list .item{border-bottom-width:3px}
+@media (prefers-reduced-motion:reduce){.mascot,.winhead .mascot,.confetti i{animation:none}}
