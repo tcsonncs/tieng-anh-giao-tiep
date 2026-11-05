@@ -1,11 +1,11 @@
 /* sw.js - lưu file app để chạy khi mất mạng. Đổi file nào thì TĂNG SỐ CACHE bên dưới. */
-var CACHE = 'tagt-v13';
+var CACHE = 'tagt-v14';
 var FILES = ['./', 'index.html', 'style.css', 'app.js', 'icons.js', 'art.js', 'noi.js', 'nhapvai.js', 'email.js',
   'data/cau_chao_lop.js', 'data/cau_giang_toan.js', 'data/cau_giao_bai.js', 'data/cau_hoi_dap.js', 'data/cau_khen_nhac.js', 'data/cau_quan_lop.js', 'data/cau_dong_nghiep.js', 'data/cau_hoi_thao.js', 'data/toan.js', 'data/toan2.js', 'data/hoithoai.js',
   'data/mau.js', 'data/doan.js', 'data/tinhhuong.js', 'data/email.js',
   'manifest.webmanifest', 'icon-180.png', 'icon-192.png', 'icon-512.png', 'icon-maskable-512.png', 'apple-touch-icon.png'];
 self.addEventListener('install', function (e) {
-  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES); }).then(function () { return self.skipWaiting(); }));
+  e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(FILES.map(function (f) { return new Request(f, { cache: 'reload' }); })); }).then(function () { return self.skipWaiting(); }));
 });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) {
@@ -17,7 +17,7 @@ self.addEventListener('fetch', function (e) {
   var u = new URL(e.request.url);
   if (u.origin !== self.location.origin) return;
   // ưu tiên bản mới trên mạng (đổi file là thấy ngay), mất mạng thì dùng bản đã lưu
-  e.respondWith(fetch(e.request).then(function (r) {
+  e.respondWith(fetch(e.request, { cache: 'no-cache' }).then(function (r) {
     if (r.ok) { var copy = r.clone(); caches.open(CACHE).then(function (c) { c.put(e.request, copy); }); }
     return r;
   }).catch(function () {
