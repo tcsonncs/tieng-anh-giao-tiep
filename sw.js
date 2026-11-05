@@ -1,5 +1,5 @@
 /* sw.js - lưu file app để chạy khi mất mạng. Đổi file nào thì TĂNG SỐ CACHE bên dưới. */
-var CACHE = 'tagt-v14';
+var CACHE = 'tagt-v15';
 var FILES = ['./', 'index.html', 'style.css', 'app.js', 'icons.js', 'art.js', 'noi.js', 'nhapvai.js', 'email.js',
   'data/cau_chao_lop.js', 'data/cau_giang_toan.js', 'data/cau_giao_bai.js', 'data/cau_hoi_dap.js', 'data/cau_khen_nhac.js', 'data/cau_quan_lop.js', 'data/cau_dong_nghiep.js', 'data/cau_hoi_thao.js', 'data/toan.js', 'data/toan2.js', 'data/hoithoai.js',
   'data/mau.js', 'data/doan.js', 'data/tinhhuong.js', 'data/email.js',

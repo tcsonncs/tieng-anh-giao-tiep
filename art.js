@@ -18,8 +18,8 @@
       : '';
     return '<svg class="mascot" viewBox="0 0 140 140" width="' + s + '" height="' + s + '" role="img" aria-label="Nhân vật Bi">' +
       '<defs>' +
-      '<radialGradient id="' + id + 'b" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#7ff0d8"/><stop offset=".45" stop-color="#3c8dff"/><stop offset="1" stop-color="#7a45e6"/></radialGradient>' +
-      '<radialGradient id="' + id + 'g" cx=".5" cy=".5" r=".5"><stop offset=".6" stop-color="#5aa8ff" stop-opacity=".45"/><stop offset="1" stop-color="#5aa8ff" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="' + id + 'b" cx=".35" cy=".28" r=".9"><stop offset="0" style="stop-color:var(--o1,#7ff0d8)"/><stop offset=".45" style="stop-color:var(--o2,#3c8dff)"/><stop offset="1" style="stop-color:var(--o3,#7a45e6)"/></radialGradient>' +
+      '<radialGradient id="' + id + 'g" cx=".5" cy=".5" r=".5"><stop offset=".6" style="stop-color:var(--og,#5aa8ff)" stop-opacity=".45"/><stop offset="1" style="stop-color:var(--og,#5aa8ff)" stop-opacity="0"/></radialGradient>' +
       '</defs>' +
       '<circle cx="70" cy="70" r="68" fill="url(#' + id + 'g)"/>' +
       '<circle cx="70" cy="72" r="46" fill="url(#' + id + 'b)"/>' +

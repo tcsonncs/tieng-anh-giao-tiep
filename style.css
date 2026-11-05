@@ -259,3 +259,35 @@ nav button.on{color:#fff;background:linear-gradient(180deg,rgba(43,149,255,.35),
 select,input[type=text],input[type=search],textarea{background:var(--card);color:var(--ink)}
 select option{color:#111}
 @media (prefers-reduced-motion:reduce){.stars i{animation:none}}
+
+/* ===== v14: chế độ sáng ấm (kem – nâu gạch), giống app Công việc ===== */
+:root:not([data-theme="dark"]){
+  --bg:#f6efe4; --card:rgba(255,252,246,.92); --ink:#3a2418; --mute:#7a6454; --line:rgba(130,85,50,.22);
+  --pri:#a4452b; --pri2:#86361f; --pri-ink:#fff; --pri-soft:rgba(164,69,43,.12); --chip:rgba(130,85,50,.1);
+  --warn:#8a5200; --warn-bg:#fbe9c8; --ok:#3d7a3a; --bad:#c0392b;
+  --sh:0 2px 10px rgba(110,70,40,.1); --sh2:0 8px 20px rgba(164,69,43,.3);
+  --glow:rgba(230,150,80,.2); --grad:linear-gradient(165deg,#fbf5ea 0%,#f4eadb 60%,#f7ece0 100%);
+  --o1:#ffd8a0; --o2:#f08a4b; --o3:#b8472b; --og:#f0a060;
+}
+:root:not([data-theme="dark"]) body{background:radial-gradient(520px 340px at 12% -40px,rgba(240,160,90,.2),transparent 70%),var(--grad)}
+:root:not([data-theme="dark"]) .mascot{filter:drop-shadow(0 8px 20px rgba(200,100,50,.4))}
+:root:not([data-theme="dark"]) button.pri,:root:not([data-theme="dark"]) button.start3d{background:linear-gradient(180deg,#bb5535,#9a3f26);color:#fff;box-shadow:var(--sh2)}
+:root:not([data-theme="dark"]) button.pri:disabled{background:rgba(150,110,80,.4);color:rgba(255,255,255,.7)}
+:root:not([data-theme="dark"]) .hl em{background:linear-gradient(90deg,#b8472b,#e08a2e);-webkit-background-clip:text;background-clip:text;color:transparent;border-bottom-color:rgba(184,71,43,.5)}
+:root:not([data-theme="dark"]) .winhead h1{background:linear-gradient(90deg,#b8472b,#e08a2e);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root:not([data-theme="dark"]) .mbanner::before{background:conic-gradient(from 0deg,transparent 0 8%,rgba(240,150,70,.22) 10% 14%,transparent 16% 33%,rgba(200,90,50,.16) 35% 39%,transparent 41% 58%,rgba(240,180,80,.22) 60% 64%,transparent 66% 83%,rgba(210,110,60,.16) 85% 89%,transparent 91%);opacity:1}
+:root:not([data-theme="dark"]) .stars i{background:#e0903a}
+:root:not([data-theme="dark"]) .chip{background:#fbe6cc;color:#b5530f;border-color:rgba(181,83,15,.3)}
+:root:not([data-theme="dark"]) .steps i.on{background:linear-gradient(90deg,#b8472b,#e08a2e)}
+:root:not([data-theme="dark"]) .pagehead{background:linear-gradient(120deg,rgba(230,150,80,.25),transparent)}
+:root:not([data-theme="dark"]) nav{background:rgba(250,243,232,.94)}
+:root:not([data-theme="dark"]) nav button.on{color:#86361f;background:rgba(164,69,43,.13);box-shadow:inset 0 0 0 1px rgba(164,69,43,.3)}
+:root:not([data-theme="dark"]) .en b{color:var(--pri)}
+:root:not([data-theme="dark"]) .stat i{color:#d9730d}
+:root:not([data-theme="dark"]) .tiles .tile.t1 .tic{background:linear-gradient(145deg,#d9704a,#a4452b)}
+:root:not([data-theme="dark"]) .tiles .tile.t2 .tic{background:linear-gradient(145deg,#f0a040,#d6791a)}
+:root:not([data-theme="dark"]) .tiles .tile.t3 .tic{background:linear-gradient(145deg,#7fa35a,#4f7a36)}
+:root:not([data-theme="dark"]) .tiles .tile.t4 .tic{background:linear-gradient(145deg,#a9805e,#74502f)}
+:root:not([data-theme="dark"]) .opt.sel,:root:not([data-theme="dark"]) .list .item:first-child{border-color:var(--pri)}
+:root:not([data-theme="dark"]) .opt.right{background:rgba(80,140,70,.13)}
+:root:not([data-theme="dark"]) .tiles .tile .tic,:root:not([data-theme="dark"]) .tiles .tile:nth-child(n) .tic{color:#fff}
