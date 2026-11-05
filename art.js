@@ -1,35 +1,43 @@
-/* art.js - nhân vật "Bi" (linh vật của app, vẽ bằng SVG, hình gốc), tranh minh hoạ và hiệu ứng ăn mừng. */
+/* art.js - nhân vật "Bi" (quả cầu phát sáng, vẽ bằng SVG, hình gốc), vòng tiến độ, pháo giấy. */
 (function () {
   var N = 0;
   // MS(mood, px): mood = 'happy' | 'cheer' | 'think' | 'wink'
   window.MS = function (mood, px) {
     var id = 'mg' + (++N), m = mood || 'happy', s = px || 96;
     var mouth = m === 'cheer'
-      ? '<path d="M50 62 Q60 82 70 62 Z" fill="#12332b"/><path d="M54 72 Q60 78 66 72 Q60 68 54 72Z" fill="#ff8f86"/>'
+      ? '<path d="M56 78 Q70 98 84 78 Z" fill="#14123a"/><path d="M62 90 Q70 96 78 90 Q70 85 62 90Z" fill="#ff8fb0"/>'
       : m === 'think'
-        ? '<path d="M54 68 H65" stroke="#12332b" stroke-width="3.5" stroke-linecap="round"/>'
-        : '<path d="M50 63 Q60 75 70 63" stroke="#12332b" stroke-width="3.6" fill="none" stroke-linecap="round"/>';
+        ? '<path d="M62 84 H78" stroke="#14123a" stroke-width="4" stroke-linecap="round"/>'
+        : '<path d="M58 80 Q70 92 82 80" stroke="#14123a" stroke-width="4.2" fill="none" stroke-linecap="round"/>';
     var eyes = m === 'wink'
-      ? '<ellipse cx="48" cy="52" rx="5.5" ry="7" fill="#12332b"/><circle cx="50" cy="49" r="2" fill="#fff"/><path d="M67 53 Q72 47 77 53" stroke="#12332b" stroke-width="3.4" fill="none" stroke-linecap="round"/>'
-      : '<ellipse cx="48" cy="52" rx="5.5" ry="7" fill="#12332b"/><ellipse cx="72" cy="52" rx="5.5" ry="7" fill="#12332b"/><circle cx="50" cy="49" r="2" fill="#fff"/><circle cx="74" cy="49" r="2" fill="#fff"/>';
-    var brow = m === 'think' ? '<path d="M64 40 L79 42" stroke="#12332b" stroke-width="3" stroke-linecap="round"/>' : '';
-    var arms = m === 'cheer'
-      ? '<path d="M24 62 Q6 54 8 34" stroke="#14906f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M96 62 Q114 54 112 34" stroke="#14906f" stroke-width="10" fill="none" stroke-linecap="round"/><path d="M110 12 l2.5 6 6 2.5-6 2.5-2.5 6-2.5-6-6-2.5 6-2.5Z" fill="#f5a623"/><path d="M8 14 l2 5 5 2-5 2-2 5-2-5-5-2 5-2Z" fill="#f5a623"/>'
+      ? '<ellipse cx="54" cy="62" rx="6.5" ry="8" fill="#14123a"/><circle cx="56.5" cy="58.5" r="2.4" fill="#fff"/><path d="M78 63 Q85 55 92 63" stroke="#14123a" stroke-width="4" fill="none" stroke-linecap="round"/>'
+      : '<ellipse cx="54" cy="62" rx="6.5" ry="8" fill="#14123a"/><ellipse cx="86" cy="62" rx="6.5" ry="8" fill="#14123a"/><circle cx="56.5" cy="58.5" r="2.4" fill="#fff"/><circle cx="88.5" cy="58.5" r="2.4" fill="#fff"/>';
+    var brow = m === 'think' ? '<path d="M78 46 L95 49" stroke="#14123a" stroke-width="3.4" stroke-linecap="round"/>' : '';
+    var spark = m === 'cheer'
+      ? '<path d="M128 24 l3 7 7 3-7 3-3 7-3-7-7-3 7-3Z" fill="#ffd36b"/><path d="M12 30 l2.4 5.6 5.6 2.4-5.6 2.4-2.4 5.6-2.4-5.6-5.6-2.4 5.6-2.4Z" fill="#8fe9ff"/>'
       : '';
-    return '<svg class="mascot" viewBox="0 0 120 120" width="' + s + '" height="' + s + '" role="img" aria-label="Nhân vật Bi">' +
-      '<defs><linearGradient id="' + id + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3ed3ac"/><stop offset="1" stop-color="#139170"/></linearGradient></defs>' +
-      '<ellipse cx="60" cy="113" rx="30" ry="4.5" fill="rgba(0,0,0,.13)"/>' + arms +
-      '<path d="M22 30Q22 12 42 12H78Q98 12 98 30V74Q98 92 78 92H60L38 108L42 92H42Q22 92 22 74Z" fill="url(#' + id + ')"/>' +
-      '<ellipse cx="60" cy="57" rx="33" ry="27" fill="#effbf7"/>' + eyes + brow +
-      '<circle cx="37" cy="65" r="5" fill="#ffb3a7" opacity=".85"/><circle cx="83" cy="65" r="5" fill="#ffb3a7" opacity=".85"/>' + mouth +
-      '<path d="M42 21V31Q60 40 78 31V21" fill="#2d4a42"/><polygon points="60,3 98,16 60,29 22,16" fill="#1b2f29"/>' +
-      '<path d="M98 16V34" stroke="#f5a623" stroke-width="3" stroke-linecap="round"/><circle cx="98" cy="37" r="4.5" fill="#f5a623"/></svg>';
+    return '<svg class="mascot" viewBox="0 0 140 140" width="' + s + '" height="' + s + '" role="img" aria-label="Nhân vật Bi">' +
+      '<defs>' +
+      '<radialGradient id="' + id + 'b" cx=".35" cy=".28" r=".9"><stop offset="0" stop-color="#7ff0d8"/><stop offset=".45" stop-color="#3c8dff"/><stop offset="1" stop-color="#7a45e6"/></radialGradient>' +
+      '<radialGradient id="' + id + 'g" cx=".5" cy=".5" r=".5"><stop offset=".6" stop-color="#5aa8ff" stop-opacity=".45"/><stop offset="1" stop-color="#5aa8ff" stop-opacity="0"/></radialGradient>' +
+      '</defs>' +
+      '<circle cx="70" cy="70" r="68" fill="url(#' + id + 'g)"/>' +
+      '<circle cx="70" cy="72" r="46" fill="url(#' + id + 'b)"/>' +
+      '<path d="M32 78 Q38 66 52 70 Q56 82 44 90 Q34 90 32 78Z" fill="#7ff0d8" opacity=".55"/>' +
+      '<path d="M92 94 L108 80 M108 80 L112 66" stroke="#9fe8ff" stroke-width="3.2" fill="none" stroke-linecap="round" opacity=".8"/><circle cx="112" cy="64" r="4" fill="#9fe8ff" opacity=".9"/>' +
+      '<path d="M96 104 Q70 118 46 104 Q60 118 96 104Z" fill="#a37bff" opacity=".6"/>' +
+      '<ellipse cx="48" cy="44" rx="16" ry="8" fill="#fff" opacity=".38" transform="rotate(-32 48 44)"/>' +
+      eyes + brow + mouth + spark + '</svg>';
   };
   // Bóng nói của Bi
   window.BUBBLE = function (txt) { return '<div class="bubble">' + txt + '</div>'; };
+  // Sao lấp lánh trang trí
+  window.STARS = function () {
+    return '<span class="stars" aria-hidden="true"><i style="left:8%;top:18%"></i><i style="left:88%;top:10%;width:14px;height:14px"></i><i style="left:80%;top:62%;width:8px;height:8px"></i><i style="left:14%;top:70%;width:9px;height:9px"></i></span>';
+  };
   // Pháo giấy cho màn hoàn thành
   window.CONFETTI = function () {
-    var c = ['#f5a623', '#e5484d', '#3e8ef7', '#8e5ce6', '#2fb98f'], h = '<div class="confetti" aria-hidden="true">';
+    var c = ['#ffd36b', '#ff8fb0', '#5aa8ff', '#a37bff', '#5fe3c4'], h = '<div class="confetti" aria-hidden="true">';
     for (var i = 0; i < 26; i++) {
       h += '<i style="left:' + ((i * 37 + 11) % 100) + '%;background:' + c[i % c.length] + ';animation-delay:' + ((i % 9) * 0.12).toFixed(2) + 's;transform:rotate(' + (i * 29 % 180) + 'deg)"></i>';
     }

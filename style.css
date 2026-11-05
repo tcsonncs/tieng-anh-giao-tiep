@@ -176,3 +176,86 @@ button.start3d:active{border-bottom-width:1px;transform:translateY(4px)}
 .card{border-bottom-width:3px}
 .speak button,.opt,.list .item{border-bottom-width:3px}
 @media (prefers-reduced-motion:reduce){.mascot,.winhead .mascot,.confetti i{animation:none}}
+
+/* ===== v13: phong cách ELSA Speak (nền tím–xanh đêm, thẻ kính, nút xanh dương) ===== */
+:root{
+  --bg:#eef1ff; --card:rgba(255,255,255,.82); --ink:#171a40; --mute:#5d6290; --line:rgba(70,80,160,.18);
+  --pri:#1f7cf5; --pri2:#1862c8; --pri-ink:#fff; --pri-soft:rgba(31,124,245,.12); --chip:rgba(70,80,160,.1);
+  --warn:#9a5b00; --warn-bg:#fff2d9; --ok:#12865f; --bad:#d4344a;
+  --sh:0 2px 12px rgba(60,70,160,.1); --sh2:0 8px 22px rgba(31,124,245,.32);
+  --glow:rgba(140,110,255,.22); --grad:linear-gradient(160deg,#f2f4ff 0%,#e4e6ff 55%,#f1e8ff 100%);
+}
+:root[data-theme="dark"]{
+  --bg:#0c0e29; --card:rgba(255,255,255,.07); --ink:#f4f5ff; --mute:#a9aed6; --line:rgba(255,255,255,.15);
+  --pri:#1e88ff; --pri2:#1565d8; --pri-ink:#fff; --pri-soft:rgba(30,136,255,.2); --chip:rgba(255,255,255,.1);
+  --warn:#ffcf7a; --warn-bg:rgba(255,190,80,.14); --ok:#4fe3b5; --bad:#ff8aa0;
+  --sh:none; --sh2:0 8px 24px rgba(30,136,255,.35);
+  --glow:rgba(120,80,255,.3); --grad:linear-gradient(170deg,#2a1c3f 0%,#141448 28%,#0b0d2a 70%,#0a0b22 100%);
+}
+html,body{background:var(--bg)}
+body{background:radial-gradient(520px 340px at 12% -40px,rgba(255,170,90,.16),transparent 70%),var(--grad);background-attachment:fixed;min-height:100vh}
+.card,.stat,.tile,.item,.opt,select,input[type=text],input[type=search],textarea,button.iconbtn{backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+button{border:1px solid var(--line);border-bottom-width:1px;background:var(--card);box-shadow:none;border-radius:18px}
+button:hover{border-color:var(--pri)}
+button.pri,button.start3d{background:linear-gradient(180deg,#2b95ff,#1478f0);color:#fff;border:0;border-bottom:0;box-shadow:var(--sh2);border-radius:20px;text-transform:none;letter-spacing:0;font-weight:700}
+button.pri:hover,button.start3d:hover{filter:brightness(1.08)}
+button.pri:active,button.start3d:active{transform:scale(.98);border-bottom-width:0}
+button.pri:disabled{background:rgba(70,100,170,.4);box-shadow:none;color:rgba(255,255,255,.6)}
+.card{border:1px solid var(--line);border-radius:24px;border-bottom-width:1px;box-shadow:var(--sh)}
+.speak button,.opt,.list .item{border-bottom-width:1px;border-radius:20px}
+.opt.right{border:2px solid var(--ok);background:rgba(79,227,181,.12)}
+.opt.wrong{border:2px solid var(--bad);background:rgba(255,138,160,.1)}
+.opt.sel,.list .item:first-child{border:2px solid var(--pri)}
+.steps i{height:7px;background:var(--line)}
+.steps i.on{background:linear-gradient(90deg,#2b95ff,#5fd2ff)}
+.chip{background:rgba(255,160,60,.16);color:#ffb347;border:1px solid rgba(255,160,60,.3)}
+:root:not([data-theme="dark"]) .chip{color:#c4650a}
+h1,h2{letter-spacing:-.01em}
+/* Hero kiểu ELSA */
+.mbanner{background:none;box-shadow:none;border-radius:0;color:var(--ink);text-align:center;padding:2px 0 8px;margin:0 0 10px;overflow:visible}
+.mbanner::before{content:"";position:absolute;left:50%;top:6px;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:conic-gradient(from 0deg,transparent 0 8%,rgba(120,100,255,.18) 10% 14%,transparent 16% 33%,rgba(60,170,255,.16) 35% 39%,transparent 41% 58%,rgba(160,110,255,.18) 60% 64%,transparent 66% 83%,rgba(80,200,255,.14) 85% 89%,transparent 91%);-webkit-mask:radial-gradient(circle,#000 22%,transparent 68%);mask:radial-gradient(circle,#000 22%,transparent 68%);right:auto;top:6px;inset:auto;position:absolute}
+.mbanner::after{display:none}
+:root:not([data-theme="dark"]) .mbanner::before{opacity:.7}
+.orbwrap{position:relative;display:flex;justify-content:center;margin:6px 0 4px;z-index:1}
+.mascot{filter:drop-shadow(0 8px 22px rgba(80,120,255,.55));animation:bob 3.6s ease-in-out infinite}
+.hl{font-size:1.65rem;line-height:1.2;margin:6px 0 6px;font-weight:800;position:relative;z-index:1}
+.hl em{font-style:normal;background:linear-gradient(90deg,#2b95ff,#9a6bff);-webkit-background-clip:text;background-clip:text;color:transparent;display:inline-block;padding-bottom:3px;border-bottom:3px solid rgba(43,149,255,.55);border-radius:2px}
+.hsub{color:var(--mute);font-size:.98rem;max-width:30ch;margin:6px auto 14px;position:relative;z-index:1}
+button.start3d{width:100%;min-height:58px;font-size:1.12rem;margin-top:0;position:relative;z-index:1}
+.stars i{position:absolute;width:11px;height:11px;background:#fff;opacity:.85;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:tw 2.8s ease-in-out infinite}
+.stars i:nth-child(2){animation-delay:.7s}.stars i:nth-child(3){animation-delay:1.4s}.stars i:nth-child(4){animation-delay:2.1s}
+@keyframes tw{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+:root:not([data-theme="dark"]) .stars i{background:#8c7bff}
+.bubble{background:var(--card);color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.bubble::before{display:none}
+/* Mục tiêu hôm nay + ô kỹ năng dạng thẻ kính */
+.daily{border-radius:24px}
+h2.sec{color:var(--mute);letter-spacing:.1em}
+.tiles{gap:12px}
+.tile{background:var(--card);color:var(--ink);border:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:24px;min-height:132px;box-shadow:var(--sh)}
+.tile:active{transform:scale(.98);border-bottom-width:1px}
+.tile .tt{color:var(--ink);font-size:1.05rem}
+.tile small{color:var(--mute)}
+.tile .tbg{display:none}
+.tiles .tile .tic,:root[data-theme="dark"] .tiles .tile .tic{width:50px;height:50px;border-radius:50%;color:#fff;font-size:1.3rem;margin-bottom:12px;box-shadow:0 6px 16px rgba(0,0,0,.25)}
+.tiles .tile.t1 .tic,:root[data-theme="dark"] .tiles .tile.t1 .tic{background:linear-gradient(145deg,#4aa4ff,#2063e0)}
+.tiles .tile.t2 .tic,:root[data-theme="dark"] .tiles .tile.t2 .tic{background:linear-gradient(145deg,#ff7a9a,#e03a66)}
+.tiles .tile.t3 .tic,:root[data-theme="dark"] .tiles .tile.t3 .tic{background:linear-gradient(145deg,#ffb84a,#ea7d12)}
+.tiles .tile.t4 .tic,:root[data-theme="dark"] .tiles .tile.t4 .tic{background:linear-gradient(145deg,#b190ff,#6c47e0)}
+.tiles .tile.t1,.tiles .tile.t2,.tiles .tile.t3,.tiles .tile.t4{background:var(--card)}
+.stat{border-radius:20px}
+.stat b{color:var(--ink)}
+.stat i{color:#ffb347}
+.pagehead{background:linear-gradient(120deg,rgba(90,100,255,.22),transparent);border:1px solid var(--line);border-radius:24px}
+.winhead h1{background:linear-gradient(90deg,#2b95ff,#a06bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+/* Thanh dưới */
+nav{background:rgba(12,14,41,.82);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-top:1px solid rgba(255,255,255,.12)}
+:root:not([data-theme="dark"]) nav{background:rgba(255,255,255,.85);border-top:1px solid var(--line)}
+nav button{color:var(--mute)}
+nav button.on{color:#fff;background:linear-gradient(180deg,rgba(43,149,255,.35),rgba(43,149,255,.15));box-shadow:inset 0 0 0 1px rgba(43,149,255,.5)}
+:root:not([data-theme="dark"]) nav button.on{color:var(--pri2);background:rgba(31,124,245,.12)}
+.en b{color:#6fb7ff}
+:root:not([data-theme="dark"]) .en b{color:var(--pri2)}
+select,input[type=text],input[type=search],textarea{background:var(--card);color:var(--ink)}
+select option{color:#111}
+@media (prefers-reduced-motion:reduce){.stars i{animation:none}}

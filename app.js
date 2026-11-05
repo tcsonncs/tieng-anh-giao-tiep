@@ -23,7 +23,7 @@ var ID_RE = /^[A-Za-z0-9_-]{1,40}$/;
 function defaults() {
   return { cards: {}, days: {}, streak: { last: '', count: 0 }, mathSeen: {}, custom: [],
     l: { dict: 0, lia: 0, dlg: {} }, ls: null, sp: null, n: { rx: 0, rxOk: 0, sh: 0, shOk: 0, gc: 0, gcOk: 0, dl: 0, dlOk: 0, nv: 0, nvOk: 0, em: 0 },
-    set: { hideKnown: true, unrev: true, newPerDay: 5, theme: 'light', voice: '', rec: true, asr: true } };
+    set: { hideKnown: true, unrev: true, newPerDay: 5, theme: 'dark', voice: '', rec: true, asr: true } };
 }
 function isObj(x) { return !!x && typeof x === 'object' && !Array.isArray(x); }
 function num(x, d) { x = Number(x); return isFinite(x) ? x : d; }
@@ -327,9 +327,10 @@ function renderHome(v) {
   v.innerHTML = '<div class="brand"><img src="icon-192.png" alt="" width="40" height="40"><div class="bn">Tiếng Anh trường học</div>' +
     '<span class="chip" title="Chuỗi ngày luyện liên tiếp">' + IC('flame') + '<b>' + shownStreak() + '</b></span>' +
     '<button class="ghost iconbtn" data-act="theme" aria-label="' + (S.set.theme === 'dark' ? 'Chuyển sang giao diện sáng' : 'Chuyển sang giao diện tối') + '">' + IC(S.set.theme === 'dark' ? 'sun' : 'moon') + '</button></div>' +
-    '<section class="mbanner"><div class="mrow">' + MS(done ? 'cheer' : 'happy', 104) +
-    BUBBLE(done ? 'Giỏi lắm! Hôm nay Thầy đã luyện xong. Luyện thêm cho chắc nhé?' : 'Chào Thầy! Mình luyện khoảng 10 phút nhé?') + '</div>' +
-    '<button class="start3d" data-act="start">' + IC('play') + ' ' + (done ? 'Luyện thêm' : 'Bắt đầu luyện') + '</button></section>' +
+    '<section class="mbanner">' + STARS() + '<div class="orbwrap">' + MS(done ? 'cheer' : 'happy', 150) + '</div>' +
+    '<h2 class="hl">' + (done ? 'Giỏi lắm!' : 'Chào Thầy!') + '<br><em>' + (done ? 'Luyện thêm cho chắc nhé' : 'Luyện 10 phút nhé') + '</em></h2>' +
+    '<p class="hsub">' + (done ? 'Hôm nay Thầy đã luyện xong. Không áp lực, cứ thêm một chút nếu còn hứng.' : 'Mỗi ngày một chút. Không áp lực, cứ thử xem nhé.') + '</p>' +
+    '<button class="start3d" data-act="start">' + (done ? 'Luyện thêm' : 'Bắt đầu thôi') + '</button></section>' +
     '<div class="daily card">' + RING(done ? 1 : 0, done ? '1/1' : '0/1') + '<div><b>Mục tiêu hôm nay</b><span>Ôn thẻ → ' + S.set.newPerDay + ' thẻ mới → bài nghe nhanh → 1 từ Toán</span></div></div>' +
     '<h2 class="sec">Luyện kỹ năng</h2><div class="tiles">' +
     tile('t1', 'lmenu', 'headphones', 'Luyện nghe', lsub) +
